@@ -1,0 +1,4 @@
+build
+philo
+*.o
+*.d
