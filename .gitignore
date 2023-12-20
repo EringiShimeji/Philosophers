@@ -1,4 +1,5 @@
 build
-philo
 *.o
 *.d
+.idea
+.DS_Store
