@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sleep.c                                            :+:      :+:    :+:   */
+/*   think.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/20 12:35:50 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 10:41:50 by smatsuo          ###   ########.fr       */
+/*   Created: 2023/12/20 10:20:51 by smatsuo           #+#    #+#             */
+/*   Updated: 2023/12/23 01:50:07 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 #include "utils.h"
 #include <stdlib.h>
 
-int	psleep(t_philo *philo)
+int	think(t_philo *philo)
 {
-	if (log_safely(philo, "is sleeping"))
+	if (log_safely(philo, "is thinking"))
 		return (EXIT_FAILURE);
-	presice_msleep(philo->time_to_sleep);
-	if (philo->num_of_eaten_meals == philo->ctx->must_eat)
-	{
-		set_has_finished_meal(philo, true);
-		return (EXIT_FAILURE);
-	}
+	presice_msleep_until(philo->next_meal_time);
 	return (EXIT_SUCCESS);
 }

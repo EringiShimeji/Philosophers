@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sleep.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/20 12:35:50 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 10:41:50 by smatsuo          ###   ########.fr       */
+/*   Created: 2023/12/10 02:33:08 by smatsuo           #+#    #+#             */
+/*   Updated: 2023/12/23 17:11:17 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "context_internal.h"
+#include "context.h"
 #include "utils.h"
 #include <stdlib.h>
 
-int	psleep(t_philo *philo)
+int	main(int argc, char **argv)
 {
-	if (log_safely(philo, "is sleeping"))
-		return (EXIT_FAILURE);
-	presice_msleep(philo->time_to_sleep);
-	if (philo->num_of_eaten_meals == philo->ctx->must_eat)
+	t_context	ctx;
+
+	if (init_context(&ctx, argc, argv))
+		return (print_error());
+	if (start_eating(&ctx))
 	{
-		set_has_finished_meal(philo, true);
-		return (EXIT_FAILURE);
+		destroy_context(&ctx);
+		return (print_error());
 	}
-	return (EXIT_SUCCESS);
+	wait_philos(&ctx);
+	destroy_context(&ctx);
 }

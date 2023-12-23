@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: smatsuo <smatsuo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 02:33:08 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/20 20:20:23 by smatsuo          ###   ########.fr       */
+/*   Created: 2023/09/05 13:18:26 by smatsuo           #+#    #+#             */
+/*   Updated: 2023/12/23 00:59:11 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "context.h"
 #include "utils.h"
 #include <stdlib.h>
 
-int	main(int argc, char **argv)
+char	*ft_strdup(const char *s1)
 {
-	t_context	ctx;
+	size_t	size;
+	char	*p;
 
-	if (init_context(&ctx, argc, argv))
-		return (print_error());
-	if (start_eating(&ctx))
-	{
-		destroy_context(&ctx);
-		return (print_error());
-	}
-	monitor_philos(&ctx);
-	destroy_context(&ctx);
+	if (s1 == NULL)
+		return (NULL);
+	size = ft_strlen(s1) + 1;
+	p = malloc(size * sizeof(char));
+	ft_memcpy(p, s1, size);
+	return (p);
 }

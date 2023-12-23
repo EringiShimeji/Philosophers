@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sleep.c                                            :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/20 12:35:50 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 10:41:50 by smatsuo          ###   ########.fr       */
+/*   Created: 2023/12/10 02:56:38 by smatsuo           #+#    #+#             */
+/*   Updated: 2023/12/10 02:58:22 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "context_internal.h"
 #include "utils.h"
 #include <stdlib.h>
+#include <unistd.h>
 
-int	psleep(t_philo *philo)
+int	print_error(void)
 {
-	if (log_safely(philo, "is sleeping"))
-		return (EXIT_FAILURE);
-	presice_msleep(philo->time_to_sleep);
-	if (philo->num_of_eaten_meals == philo->ctx->must_eat)
-	{
-		set_has_finished_meal(philo, true);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+	write(STDERR_FILENO, "Error\n", 6);
+	return (EXIT_FAILURE);
 }

@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sleep.c                                            :+:      :+:    :+:   */
+/*   sem.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/20 12:35:50 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 10:41:50 by smatsuo          ###   ########.fr       */
+/*   Created: 2023/12/23 17:17:35 by smatsuo           #+#    #+#             */
+/*   Updated: 2023/12/23 17:35:28 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "context_internal.h"
-#include "utils.h"
 #include <stdlib.h>
 
-int	psleep(t_philo *philo)
+int	reopen_sem(t_philo *philo)
 {
-	if (log_safely(philo, "is sleeping"))
-		return (EXIT_FAILURE);
-	presice_msleep(philo->time_to_sleep);
-	if (philo->num_of_eaten_meals == philo->ctx->must_eat)
-	{
-		set_has_finished_meal(philo, true);
-		return (EXIT_FAILURE);
-	}
+	(void )philo;
+	// philo->ctx->lock = sem_open(philo->ctx->lock_name, 0);
+	// philo->ctx->io_lock = sem_open(philo->ctx->io_lock_name, 0);
+	// philo->ctx->is_ready = sem_open(philo->ctx->is_ready_name, 0);
+	// philo->ctx->fork_pool = sem_open(philo->ctx->fork_pool_name, 0);
+	// philo->lock = sem_open(philo->lock_name, 0);
 	return (EXIT_SUCCESS);
 }
