@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 22:44:06 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/27 14:26:20 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 15:12:19 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	*start_process(void *arg)
 		pthread_create(&philo->main_thread, NULL, start_routine, philo);
 		pthread_detach(philo->main_thread);
 		monitor_myself(philo);
-		return (NULL);
+		exit(EXIT_SUCCESS);
 	}
 	return (NULL);
 }
