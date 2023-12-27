@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 20:37:30 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 17:44:06 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:25:50 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ static sem_t	*create_lock_for_philo(t_philo *philo)
 	id_str = ft_itoa(philo->id);
 	if (id_str == NULL)
 		return (NULL);
-	name = ft_strjoin("lock_", id_str);
+	name = ft_strjoin("ft_lock_", id_str);
 	if (name == NULL)
 		return (NULL);
 	philo->lock_name = name;
+	sem_unlink(philo->lock_name);
 	return (sem_open(name, O_CREAT, 0600, 1));
 }
 
@@ -59,9 +60,7 @@ static int	create_philos(t_context *ctx)
 	int		i;
 	t_philo	*philo;
 
-	ctx->philos = malloc(sizeof(t_philo) * ctx->num_of_philos);
-	if (ctx->philos == NULL)
-		return (EXIT_FAILURE);
+	ctx->philos = ft_xmalloc(sizeof(t_philo) * ctx->num_of_philos);
 	i = 0;
 	while (i < ctx->num_of_philos)
 	{
@@ -101,7 +100,7 @@ int	init_context(t_context *ctx, int argc, char **argv)
 	}
 	ctx->lock_name = "ft_lock";
 	sem_unlink(ctx->lock_name);
-	ctx->lock = sem_open(ctx->lock_name, O_CREAT | O_EXCL, O_WRONLY, 1);
+	ctx->lock = sem_open(ctx->lock_name, O_CREAT, O_WRONLY, 1);
 	ctx->io_lock_name = "ft_io_lock";
 	sem_unlink(ctx->io_lock_name);
 	ctx->io_lock = sem_open(ctx->io_lock_name, O_CREAT, 0600, 1);

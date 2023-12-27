@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:24:24 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 08:42:59 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 12:16:03 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 #include "utils.h"
 #include <stdbool.h>
 
-void	wait_until_ready(t_context *ctx)
+void	wait_until_ready(t_philo *philo)
 {
-	sem_wait(ctx->is_ready);
-	sem_post(ctx->is_ready);
-	ctx->start_time = gettimeofday_as_ms();
+	sem_wait(philo->ctx->is_ready);
+	sem_post(philo->ctx->is_ready);
 }
 
 bool	did_someone_died(t_context *ctx)

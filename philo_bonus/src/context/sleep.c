@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:35:50 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 10:41:35 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:18:32 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	psleep(t_philo *philo)
 	if (philo->num_of_eaten_meals == philo->ctx->must_eat)
 	{
 		set_has_finished_meal(philo, true);
-		return (EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	}
 	return (EXIT_SUCCESS);
 }

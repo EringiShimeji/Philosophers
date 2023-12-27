@@ -6,13 +6,15 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:33:20 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 17:48:59 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:24:19 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "context.h"
 #include "context_internal.h"
 #include "utils.h"
+#include <errno.h>
+#include <pthread.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,20 +43,19 @@ static void	*monitor_routine(void *arg)
 	while (true)
 	{
 		if (has_finished_meal(philo))
-			continue ;
+			return (NULL);
 		if (is_dead(philo))
 		{
 			sem_wait(philo->ctx->io_lock);
 			timestamp = gettimeofday_as_ms() - philo->ctx->start_time;
 			printf("%d %d died\n", timestamp, philo->id);
-			philo->ctx->did_someone_died = true;
-			terminate_philos_by(philo);
+			exit(EXIT_FAILURE);
 		}
 	}
 }
 
 void	monitor_myself(t_philo *philo)
 {
-	if (pthread_create(&philo->monitor_thread, NULL, monitor_routine, philo))
-		terminate_philos_by(philo);
+	pthread_create(&philo->monitor_thread, NULL, monitor_routine, philo);
+	pthread_join(philo->monitor_thread, NULL);
 }

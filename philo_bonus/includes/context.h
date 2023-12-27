@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 20:35:00 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 17:20:05 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:25:47 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ struct s_philo
 {
 	int				id;
 	t_context		*ctx;
+	pthread_t		main_thread;
 	pthread_t		monitor_thread;
 	sem_t			*lock;
 	char			*lock_name;

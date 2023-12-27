@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:30:28 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 01:46:52 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 12:14:45 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ int	log_safely(t_philo *philo, const char *message)
 	if (did_someone_died(philo->ctx))
 		return (EXIT_FAILURE);
 	sem_wait(philo->ctx->io_lock);
-	timestamp = gettimeofday_as_ms() - philo->ctx->start_time;
 	if (philo->ctx->did_someone_died)
 	{
 		sem_post(philo->ctx->io_lock);
 		return (EXIT_FAILURE);
 	}
+	timestamp = gettimeofday_as_ms() - philo->ctx->start_time;
 	printf("%lld %d %s\n", timestamp, philo->id, message);
 	sem_post(philo->ctx->io_lock);
 	return (EXIT_SUCCESS);

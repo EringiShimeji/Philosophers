@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 22:44:06 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 17:37:48 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:26:20 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,12 @@
 #include "context_internal.h"
 #include "utils.h"
 #include <pthread.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/_types/_pid_t.h>
 #include <sys/fcntl.h>
 #include <unistd.h>
-
-static void	*start_routine(void *arg)
-{
-	t_philo	*philo;
-
-	philo = arg;
-	wait_until_ready(philo->ctx);
-	monitor_myself(philo);
-	while (true)
-	{
-		think(philo);
-		eat(philo);
-		psleep(philo);
-	}
-}
 
 static t_msec	calc_first_meal_time(t_philo *philo)
 {
@@ -48,46 +35,52 @@ static t_msec	calc_first_meal_time(t_philo *philo)
 	return (philo->ctx->start_time + unit * ((id * k) % n));
 }
 
-static void	prologue(t_philo *philo)
+static void	*start_routine(void *arg)
 {
-	if (reopen_sem(philo))
-		terminate_philos_by(philo);
+	t_philo	*philo;
+
+	philo = arg;
+	philo->next_meal_time = calc_first_meal_time(philo);
+	presice_msleep_until(philo->ctx->start_time);
+	while (!did_someone_died(philo->ctx))
+	{
+		if (think(philo)
+			|| eat(philo)
+			|| psleep(philo))
+			exit(EXIT_SUCCESS);
+	}
+	set_has_finished_meal(philo, true);
+	return (NULL);
 }
 
-static int	start_process(t_philo *philo)
+static void	*start_process(void *arg)
 {
+	t_philo	*philo;
+
+	philo = arg;
 	philo->pid = fork();
 	if (philo->pid == -1)
-		return (EXIT_FAILURE);
+		return (NULL);
 	if (philo->pid == 0)
 	{
-		prologue(philo);
-		start_routine(philo);
-		terminate_philos_by(philo);
-		exit(0);
+		pthread_create(&philo->main_thread, NULL, start_routine, philo);
+		pthread_detach(philo->main_thread);
+		monitor_myself(philo);
+		return (NULL);
 	}
-	return (EXIT_SUCCESS);
+	return (NULL);
 }
 
 int	start_eating(t_context *ctx)
 {
 	int		i;
-	t_philo	*philo;
 
 	i = 0;
-	sem_wait(ctx->is_ready);
+	ctx->start_time = gettimeofday_as_ms() + 1000;
 	while (i < ctx->num_of_philos)
 	{
-		philo = &ctx->philos[i++];
-		philo->next_meal_time = calc_first_meal_time(philo);
+		start_process(&ctx->philos[i]);
+		i++;
 	}
-	i = 0;
-	while (i < ctx->num_of_philos)
-	{
-		philo = &ctx->philos[i++];
-		if (start_process(philo))
-			terminate_philos_by(philo);
-	}
-	sem_post(ctx->is_ready);
 	return (EXIT_SUCCESS);
 }
