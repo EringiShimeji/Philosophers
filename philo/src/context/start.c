@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 22:44:06 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 22:03:23 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 16:57:09 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@
 
 static t_msec	calc_first_meal_time(t_philo *philo)
 {
-	int	id;
 	int	n;
+	int	id;
 	int	k;
 	int	unit;
 
-	id = philo->id;
 	n = philo->ctx->num_of_philos;
+	if (n == 1)
+		return (philo->ctx->start_time);
+	id = philo->id;
 	k = n / 2;
 	unit = philo->time_to_eat / k;
 	return (philo->ctx->start_time + unit * ((id * k) % n));
