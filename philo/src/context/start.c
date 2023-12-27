@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 22:44:06 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 22:03:23 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 15:20:34 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	*start_routine(void *arg)
 
 	philo = arg;
 	philo->next_meal_time = calc_first_meal_time(philo);
+	presice_msleep_until(philo->ctx->start_time);
 	while (!did_someone_died(philo->ctx))
 	{
 		if (think(philo)
@@ -53,7 +54,7 @@ int	start_eating(t_context *ctx)
 	t_philo	*philo;
 
 	i = 0;
-	ctx->start_time = gettimeofday_as_ms();
+	ctx->start_time = gettimeofday_as_ms() + 1000;
 	while (i < ctx->num_of_philos)
 	{
 		philo = &ctx->philos[i++];
