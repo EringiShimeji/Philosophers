@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 02:37:23 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/27 13:55:43 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:39:54 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ t_msec		read_safely_msec(sem_t *lock, t_msec *p);
 void		write_safely_msec(sem_t *lock, t_msec *p, t_msec value);
 void		presice_msleep(t_msec duration);
 void		*ft_xmalloc(size_t size);
+sem_t		*xsem_open(const char *name, int value);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 20:37:30 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/20 13:27:11 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:32:15 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static int	create_philos(t_context *ctx)
 		philo->time_to_die = ctx->time_to_die;
 		philo->time_to_eat = ctx->time_to_eat;
 		philo->time_to_sleep = ctx->time_to_sleep;
-		pthread_mutex_init(&philo->lock, NULL);
+		if (pthread_mutex_init(&philo->lock, NULL))
+			return (EXIT_FAILURE);
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -82,12 +83,12 @@ int	init_context(t_context *ctx, int argc, char **argv)
 	memset(ctx, 0, sizeof(t_context));
 	if (parse_args(ctx, argc, argv))
 		return (EXIT_FAILURE);
-	if (create_philos(ctx) || create_forks(ctx))
+	if (create_philos(ctx) || create_forks(ctx)
+		|| pthread_mutex_init(&ctx->lock, NULL)
+		|| pthread_mutex_init(&ctx->io_lock, NULL))
 	{
 		destroy_context(ctx);
 		return (EXIT_FAILURE);
 	}
-	pthread_mutex_init(&ctx->lock, NULL);
-	pthread_mutex_init(&ctx->io_lock, NULL);
 	return (EXIT_SUCCESS);
 }

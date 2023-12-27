@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 20:35:00 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/27 14:25:47 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:40:44 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ typedef struct s_context
 	t_msec			time_to_eat;
 	t_msec			time_to_sleep;
 	int				must_eat;
-	sem_t			*is_ready;
-	char			*is_ready_name;
 	bool			did_someone_died;
 	t_msec			start_time;
 }	t_context;

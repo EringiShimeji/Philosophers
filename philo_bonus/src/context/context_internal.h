@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:31:29 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/27 14:09:06 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:40:33 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdbool.h>
 
 void	set_dead_info(t_context *ctx, bool value);
-void	wait_until_ready(t_philo *philo);
 bool	did_someone_died(t_context *ctx);
 t_msec	get_last_meal_time(t_philo *philo);
 int		log_safely(t_philo *philo, const char *message);

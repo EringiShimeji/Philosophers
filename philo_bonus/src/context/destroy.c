@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 22:32:14 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 17:22:22 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:40:59 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,4 @@ void	destroy_context(t_context *ctx)
 	}
 	sem_close(ctx->lock);
 	sem_unlink(ctx->lock_name);
-	sem_close(ctx->is_ready);
-	sem_unlink(ctx->is_ready_name);
 }

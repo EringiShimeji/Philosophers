@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   xopen.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 02:33:08 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/27 14:43:12 by smatsuo          ###   ########.fr       */
+/*   Created: 2023/12/27 14:35:29 by smatsuo           #+#    #+#             */
+/*   Updated: 2023/12/27 14:50:53 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "context.h"
+#include <errno.h>
+#include <semaphore.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/semaphore.h>
 #include "utils.h"
 
-int	main(int argc, char **argv)
+sem_t	*xsem_open(const char *name, int value)
 {
-	t_context	ctx;
+	sem_t	*res;
 
-	if (init_context(&ctx, argc, argv))
-		return (print_error());
-	if (start_eating(&ctx))
-	{
-		destroy_context(&ctx);
-		return (print_error());
-	}
-	wait_philos(&ctx);
-	destroy_context(&ctx);
+	sem_unlink(name);
+	res = sem_open(name, O_CREAT, 0666, value);
+	if (res == SEM_FAILED)
+		exit(print_error());
+	return (res);
 }

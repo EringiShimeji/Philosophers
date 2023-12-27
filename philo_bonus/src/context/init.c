@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 20:37:30 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/27 14:25:50 by smatsuo          ###   ########.fr       */
+/*   Updated: 2023/12/27 14:45:44 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ static sem_t	*create_lock_for_philo(t_philo *philo)
 	if (name == NULL)
 		return (NULL);
 	philo->lock_name = name;
-	sem_unlink(philo->lock_name);
-	return (sem_open(name, O_CREAT, 0600, 1));
+	return (xsem_open(name, 1));
 }
 
 static int	create_philos(t_context *ctx)
@@ -82,9 +81,7 @@ static int	create_philos(t_context *ctx)
 static int	create_forks(t_context *ctx)
 {
 	ctx->fork_pool_name = "ft_fork_pool";
-	sem_unlink(ctx->fork_pool_name);
-	ctx->fork_pool = sem_open(ctx->fork_pool_name, O_CREAT,
-			0600, ctx->num_of_philos);
+	ctx->fork_pool = xsem_open(ctx->fork_pool_name, ctx->num_of_philos);
 	return (EXIT_SUCCESS);
 }
 
@@ -99,13 +96,8 @@ int	init_context(t_context *ctx, int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	ctx->lock_name = "ft_lock";
-	sem_unlink(ctx->lock_name);
-	ctx->lock = sem_open(ctx->lock_name, O_CREAT, O_WRONLY, 1);
+	ctx->lock = xsem_open(ctx->lock_name, 1);
 	ctx->io_lock_name = "ft_io_lock";
-	sem_unlink(ctx->io_lock_name);
-	ctx->io_lock = sem_open(ctx->io_lock_name, O_CREAT, 0600, 1);
-	ctx->is_ready_name = "ft_is_ready";
-	sem_unlink(ctx->is_ready_name);
-	ctx->is_ready = sem_open(ctx->is_ready_name, O_CREAT, 0600, 1);
+	ctx->io_lock = xsem_open(ctx->io_lock_name, 1);
 	return (EXIT_SUCCESS);
 }
