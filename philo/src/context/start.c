@@ -39,6 +39,7 @@ static void	*start_routine(void *arg)
 
 	philo = arg;
 	philo->next_meal_time = calc_first_meal_time(philo);
+	presice_msleep_until(philo->ctx->start_time);
 	while (!did_someone_died(philo->ctx))
 	{
 		if (think(philo)
@@ -55,7 +56,7 @@ int	start_eating(t_context *ctx)
 	t_philo	*philo;
 
 	i = 0;
-	ctx->start_time = gettimeofday_as_ms();
+	ctx->start_time = gettimeofday_as_ms() + 1000;
 	while (i < ctx->num_of_philos)
 	{
 		philo = &ctx->philos[i++];
