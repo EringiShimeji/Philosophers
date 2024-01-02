@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 23:33:20 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/27 14:24:19 by smatsuo          ###   ########.fr       */
+/*   Updated: 2024/01/02 16:44:16 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ static bool	is_dead(t_philo *philo)
 	t_msec	now;
 
 	last_meal_time = get_last_meal_time(philo);
+	sem_wait(philo->ctx->io_lock);
 	now = gettimeofday_as_ms() - philo->ctx->start_time;
+	sem_post(philo->ctx->io_lock);
 	return (now - last_meal_time >= philo->time_to_die);
 }
 
