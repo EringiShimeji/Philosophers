@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 22:44:06 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/27 16:57:34 by smatsuo          ###   ########.fr       */
+/*   Updated: 2024/01/02 15:59:16 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ static void	*start_routine(void *arg)
 	return (NULL);
 }
 
-static void	*start_process(void *arg)
+static int	start_process(void *arg)
 {
 	t_philo	*philo;
 
 	philo = arg;
 	philo->pid = fork();
 	if (philo->pid == -1)
-		return (NULL);
+		return (EXIT_FAILURE);
 	if (philo->pid == 0)
 	{
 		pthread_create(&philo->main_thread, NULL, start_routine, philo);
@@ -70,7 +70,7 @@ static void	*start_process(void *arg)
 		monitor_myself(philo);
 		exit(EXIT_SUCCESS);
 	}
-	return (NULL);
+	return (EXIT_SUCCESS);
 }
 
 int	start_eating(t_context *ctx)
@@ -81,7 +81,8 @@ int	start_eating(t_context *ctx)
 	ctx->start_time = gettimeofday_as_ms() + 1000;
 	while (i < ctx->num_of_philos)
 	{
-		start_process(&ctx->philos[i]);
+		if (start_process(&ctx->philos[i]))
+			return (EXIT_FAILURE);
 		i++;
 	}
 	return (EXIT_SUCCESS);
