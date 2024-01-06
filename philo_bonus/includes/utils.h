@@ -20,7 +20,7 @@
 # include <semaphore.h>
 
 typedef long long	t_msec;
-typedef suseconds_t	t_usec;
+typedef long		t_usec;
 
 long		ft_strtol(const char *str, char **endptr, int base);
 int			ft_atoi(const char *str);
@@ -35,8 +35,8 @@ int			print_error(void);
 void		presice_msleep_until(t_msec end);
 t_msec		gettimeofday_as_ms(void);
 void		write_safely_bool(sem_t *lock, bool *p, bool value);
-bool		read_safely_bool(sem_t *lock, bool *p);
-t_msec		read_safely_msec(sem_t *lock, t_msec *p);
+bool		read_safely_bool(sem_t *lock, const bool *p);
+t_msec		read_safely_msec(sem_t *lock, const t_msec *p);
 void		write_safely_msec(sem_t *lock, t_msec *p, t_msec value);
 void		presice_msleep(t_msec duration);
 void		*ft_xmalloc(size_t size);

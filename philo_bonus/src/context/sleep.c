@@ -22,7 +22,7 @@ int	psleep(t_philo *philo)
 	if (philo->num_of_eaten_meals == philo->ctx->must_eat)
 	{
 		set_has_finished_meal(philo, true);
-		exit(EXIT_SUCCESS);
+		return(EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }

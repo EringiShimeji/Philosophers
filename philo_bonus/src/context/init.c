@@ -13,12 +13,8 @@
 #include "context.h"
 #include "utils.h"
 #include <errno.h>
-#include <pthread.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/fcntl.h>
-#include <sys/semaphore.h>
 
 static int	parse_args(t_context *ctx, int argc, char **argv)
 {
@@ -90,11 +86,12 @@ int	init_context(t_context *ctx, int argc, char **argv)
 	memset(ctx, 0, sizeof(t_context));
 	if (parse_args(ctx, argc, argv))
 		return (EXIT_FAILURE);
-	if (create_philos(ctx) || create_forks(ctx))
+	if (create_philos(ctx))
 	{
 		destroy_context(ctx);
 		return (EXIT_FAILURE);
 	}
+	create_forks(ctx);
 	ctx->lock_name = "ft_lock";
 	ctx->lock = xsem_open(ctx->lock_name, 1);
 	ctx->io_lock_name = "ft_io_lock";

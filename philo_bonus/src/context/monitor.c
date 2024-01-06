@@ -13,7 +13,6 @@
 #include "context.h"
 #include "context_internal.h"
 #include "utils.h"
-#include <errno.h>
 #include <pthread.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -39,7 +38,7 @@ static bool	is_dead(t_philo *philo)
 static void	*monitor_routine(void *arg)
 {
 	t_philo	*philo;
-	int		timestamp;
+	t_msec	timestamp;
 
 	philo = arg;
 	while (true)
@@ -50,7 +49,7 @@ static void	*monitor_routine(void *arg)
 		{
 			sem_wait(philo->ctx->io_lock);
 			timestamp = gettimeofday_as_ms() - philo->ctx->start_time;
-			printf("%d %d died\n", timestamp, philo->id);
+			printf("%lld %d died\n", timestamp, philo->id);
 			exit(EXIT_FAILURE);
 		}
 	}

@@ -12,12 +12,10 @@
 
 #include "context.h"
 #include "context_internal.h"
-#include <pthread.h>
-#include <signal.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <printf.h>
 
 int	wait_philos(t_context *ctx)
 {
@@ -43,5 +41,4 @@ int	wait_philos(t_context *ctx)
 		if (is_all_exited)
 			exit(EXIT_SUCCESS);
 	}
-	return (EXIT_SUCCESS);
 }

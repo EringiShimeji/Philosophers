@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
 #include <stdbool.h>
 #include <semaphore.h>
 #include "utils.h"

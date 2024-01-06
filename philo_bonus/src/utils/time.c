@@ -10,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "context.h"
 #include "utils.h"
-#include <stdio.h>
-#include <sys/_types/_suseconds_t.h>
-#include <sys/_types/_useconds_t.h>
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -36,7 +32,7 @@ t_msec	gettimeofday_as_ms(void)
 
 void	presice_msleep_until(t_msec end)
 {
-	int	diff;
+	long long	diff;
 
 	while (true)
 	{

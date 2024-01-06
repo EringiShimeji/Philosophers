@@ -12,12 +12,6 @@
 
 #include "context.h"
 #include "utils.h"
-#include <stdbool.h>
-
-bool	did_someone_died(t_context *ctx)
-{
-	return (read_safely_bool(ctx->io_lock, &ctx->did_someone_died));
-}
 
 t_msec	get_last_meal_time(t_philo *philo)
 {

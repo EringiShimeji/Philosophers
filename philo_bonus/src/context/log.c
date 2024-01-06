@@ -20,14 +20,7 @@ int	log_safely(t_philo *philo, const char *message)
 {
 	t_msec	timestamp;
 
-	if (did_someone_died(philo->ctx))
-		return (EXIT_FAILURE);
 	sem_wait(philo->ctx->io_lock);
-	if (philo->ctx->did_someone_died)
-	{
-		sem_post(philo->ctx->io_lock);
-		return (EXIT_FAILURE);
-	}
 	timestamp = gettimeofday_as_ms() - philo->ctx->start_time;
 	printf("%lld %d %s\n", timestamp, philo->id, message);
 	sem_post(philo->ctx->io_lock);

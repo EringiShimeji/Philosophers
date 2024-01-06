@@ -11,11 +11,10 @@
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include <pthread.h>
 #include <semaphore.h>
 #include "utils.h"
 
-bool	read_safely_bool(sem_t *lock, bool *p)
+bool	read_safely_bool(sem_t *lock, const bool *p)
 {
 	bool	value;
 
@@ -25,7 +24,7 @@ bool	read_safely_bool(sem_t *lock, bool *p)
 	return (value);
 }
 
-t_msec	read_safely_msec(sem_t *lock, t_msec *p)
+t_msec	read_safely_msec(sem_t *lock, const t_msec *p)
 {
 	t_msec	value;
 

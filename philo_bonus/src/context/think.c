@@ -12,7 +12,6 @@
 
 #include "context_internal.h"
 #include "utils.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 int	think(t_philo *philo)

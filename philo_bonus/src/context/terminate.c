@@ -13,9 +13,6 @@
 #include "context.h"
 #include "context_internal.h"
 #include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/_types/_pid_t.h>
 
 void	terminate_philos(t_context *ctx)
 {

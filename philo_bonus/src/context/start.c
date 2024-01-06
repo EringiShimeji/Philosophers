@@ -14,19 +14,15 @@
 #include "context_internal.h"
 #include "utils.h"
 #include <pthread.h>
-#include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <sys/_types/_pid_t.h>
-#include <sys/fcntl.h>
 #include <unistd.h>
 
 static t_msec	calc_first_meal_time(t_philo *philo)
 {
-	int	n;
-	int	id;
-	int	k;
-	int	unit;
+	int		n;
+	int		id;
+	int		k;
+	t_msec	unit;
 
 	n = philo->ctx->num_of_philos;
 	if (n == 1)
@@ -44,15 +40,13 @@ static void	*start_routine(void *arg)
 	philo = arg;
 	philo->next_meal_time = calc_first_meal_time(philo);
 	presice_msleep_until(philo->ctx->start_time);
-	while (!did_someone_died(philo->ctx))
+	while (true)
 	{
 		if (think(philo)
 			|| eat(philo)
 			|| psleep(philo))
-			exit(EXIT_SUCCESS);
+			return (NULL);
 	}
-	set_has_finished_meal(philo, true);
-	return (NULL);
 }
 
 static int	start_process(void *arg)
@@ -66,8 +60,8 @@ static int	start_process(void *arg)
 	if (philo->pid == 0)
 	{
 		pthread_create(&philo->main_thread, NULL, start_routine, philo);
-		pthread_detach(philo->main_thread);
 		monitor_myself(philo);
+		pthread_join(philo->main_thread, NULL);
 		exit(EXIT_SUCCESS);
 	}
 	return (EXIT_SUCCESS);

@@ -13,7 +13,6 @@
 #include "context.h"
 #include "context_internal.h"
 #include "utils.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 static int	take_forks(t_philo *philo)

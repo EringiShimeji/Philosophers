@@ -17,8 +17,6 @@
 # include <pthread.h>
 # include <stdbool.h>
 
-void	set_dead_info(t_context *ctx, bool value);
-bool	did_someone_died(t_context *ctx);
 t_msec	get_last_meal_time(t_philo *philo);
 int		log_safely(t_philo *philo, const char *message);
 int		eat(t_philo *philo);

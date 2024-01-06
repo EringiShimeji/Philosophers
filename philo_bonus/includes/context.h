@@ -17,7 +17,7 @@
 # include <stdbool.h>
 # include <semaphore.h>
 
-# define NO_MUST_EAT -1
+# define NO_MUST_EAT (-1)
 
 typedef struct s_philo	t_philo;
 
@@ -35,7 +35,6 @@ typedef struct s_context
 	t_msec			time_to_eat;
 	t_msec			time_to_sleep;
 	int				must_eat;
-	bool			did_someone_died;
 	t_msec			start_time;
 }	t_context;
 
@@ -60,7 +59,6 @@ struct s_philo
 int		init_context(t_context *ctx, int argc, char **argv);
 void	destroy_context(t_context *ctx);
 int		start_eating(t_context *ctx);
-int		monitor_philos(t_context *ctx);
 int		wait_philos(t_context *ctx);
 
 #endif
