@@ -34,6 +34,12 @@ static void	select_forks(t_philo *philo, pthread_mutex_t *selected_forks[2])
 	}
 }
 
+static void	put_forks(pthread_mutex_t *forks[2])
+{
+	pthread_mutex_unlock(forks[1]);
+	pthread_mutex_unlock(forks[0]);
+}
+
 static int	take_forks(t_philo *philo, pthread_mutex_t	*forks[2])
 {
 	pthread_mutex_lock(forks[0]);
@@ -45,16 +51,15 @@ static int	take_forks(t_philo *philo, pthread_mutex_t	*forks[2])
 	return (log_safely(philo, "has taken a fork"));
 }
 
-static void	put_forks(pthread_mutex_t *forks[2])
-{
-	pthread_mutex_unlock(forks[1]);
-	pthread_mutex_unlock(forks[0]);
-}
-
 static t_msec	calc_next_meal_time(t_philo *philo, t_msec last_meal_time)
 {
-	return (last_meal_time + philo->time_to_sleep
-		+ philo->time_to_eat / philo->ctx->num_of_philos / 2);
+	t_msec	additional;
+
+	additional = philo->time_to_eat - philo->time_to_sleep;
+	if (additional < 0)
+		additional = 0;
+	return (last_meal_time + philo->time_to_eat + philo->time_to_sleep
+		+ additional);
 }
 
 int	eat(t_philo *philo)
@@ -64,7 +69,10 @@ int	eat(t_philo *philo)
 
 	select_forks(philo, forks);
 	if (take_forks(philo, forks))
+	{
+		put_forks(forks);
 		return (EXIT_FAILURE);
+	}
 	now = gettimeofday_as_ms();
 	if (log_safely(philo, "is eating"))
 	{
