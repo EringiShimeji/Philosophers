@@ -32,8 +32,13 @@ static void	put_forks(t_philo *philo)
 
 static t_msec	calc_next_meal_time(t_philo *philo, t_msec last_meal_time)
 {
-	return (last_meal_time + philo->time_to_sleep
-		+ philo->time_to_eat / philo->ctx->num_of_philos / 2);
+	t_msec	additional;
+
+	additional = philo->time_to_eat - philo->time_to_sleep;
+	if (additional < 0)
+		additional = 0;
+	return (last_meal_time + philo->time_to_eat + philo->time_to_sleep
+		+ additional);
 }
 
 int	eat(t_philo *philo)
