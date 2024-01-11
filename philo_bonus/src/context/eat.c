@@ -6,7 +6,7 @@
 /*   By: smatsuo <smatsuo@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:22:49 by smatsuo           #+#    #+#             */
-/*   Updated: 2023/12/23 23:05:07 by smatsuo          ###   ########.fr       */
+/*   Updated: 2024/01/11 18:33:01 by smatsuo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,11 @@ static void	put_forks(t_philo *philo)
 
 static t_msec	calc_next_meal_time(t_philo *philo, t_msec last_meal_time)
 {
-	t_msec	additional;
+	t_msec	meal_finished_time;
 
-	additional = philo->time_to_eat - philo->time_to_sleep;
-	if (additional < 0)
-		additional = 0;
-	return (last_meal_time + philo->time_to_eat + philo->time_to_sleep
-		+ additional);
+	meal_finished_time = last_meal_time + philo->time_to_eat;
+	return (meal_finished_time + philo->time_to_eat / philo->ctx->num_of_philos
+		+ philo->time_to_eat);
 }
 
 int	eat(t_philo *philo)
