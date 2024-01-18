@@ -53,11 +53,18 @@ static int	take_forks(t_philo *philo, pthread_mutex_t	*forks[2])
 
 static t_msec	calc_next_meal_time(t_philo *philo, t_msec last_meal_time)
 {
-	t_msec	meal_finished_time;
+	const int 		n = philo->ctx->num_of_philos;
+	const int		k = n / 2;
+	double			interval;
 
-	meal_finished_time = last_meal_time + philo->time_to_eat;
-	return (meal_finished_time + philo->time_to_eat / philo->ctx->num_of_philos
-		+ philo->time_to_eat);
+	interval = (double)n * philo->time_to_eat / k;
+	if (interval > (t_msec)interval) {
+		interval = (t_msec)interval + 1;
+	}
+	if (interval < philo->time_to_eat + philo->time_to_sleep) {
+		interval = philo->time_to_eat + philo->time_to_sleep;
+	}
+	return (last_meal_time + (t_msec)interval);
 }
 
 int	eat(t_philo *philo)
