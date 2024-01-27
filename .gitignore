@@ -3,3 +3,4 @@ build
 *.d
 .idea
 .DS_Store
+Lazy*
