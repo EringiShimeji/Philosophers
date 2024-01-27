@@ -30,6 +30,8 @@ static t_msec	calc_first_meal_time(t_philo *philo)
 	id = philo->id;
 	k = n / 2;
 	unit = philo->time_to_eat / k;
+	if (unit == 0)
+		unit = 1;
 	return (philo->ctx->start_time + unit * ((id * k) % n));
 }
 
